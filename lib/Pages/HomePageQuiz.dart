@@ -1,10 +1,11 @@
-import 'package:firstpractice/Pages/Controller/quizController.dart';
-import 'package:firstpractice/Pages/Model/QandAnswer.dart';
+import 'package:firstpractice/Pages/quizController.dart';
+import 'package:firstpractice/Pages/QandAnswer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomePageQuiz extends StatelessWidget {
   final controller = Get.put(QuizController());
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -16,6 +17,36 @@ class HomePageQuiz extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Stack(
               children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.02,
+                    ),
+                    controller.questionNumber.value < qandanswerlists.length
+                        ? Center(
+                            child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Remainig Sec : ',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: controller.ghori.toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 25),
+                                ),
+                              ],
+                            ),
+                          ))
+                        : Container(),
+                  ],
+                ),
                 controller.questionNumber.value < qandanswerlists.length
                     ? Column(
                         children: [
@@ -47,6 +78,8 @@ class HomePageQuiz extends StatelessWidget {
                               onTap: () {
                                 controller.questionNumberfunction();
                                 controller.gettingthetrue("true");
+                                // controller.countTimer();
+                                controller.isButtonClicked.value = true;
                               },
                               child: Container(
                                 width: size.width,
@@ -68,6 +101,7 @@ class HomePageQuiz extends StatelessWidget {
                               onTap: () {
                                 controller.questionNumberfunction();
                                 controller.gettingthetrue("false");
+                                controller.isButtonClicked.value = true;
                               },
                               child: Container(
                                 width: size.width,

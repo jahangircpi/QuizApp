@@ -1,10 +1,44 @@
-import 'package:firstpractice/Pages/Model/QandAnswer.dart';
+import 'dart:async';
+import 'package:firstpractice/Pages/QandAnswer.dart';
 import 'package:get/get.dart';
 
 class QuizController extends GetxController {
   var questionNumber = 0.obs;
   var myiconlists = [].obs;
   var totaltruenumber = 0.obs;
+  var ghori = 30.obs;
+  Timer _timer;
+  var isButtonClicked = false.obs;
+
+  @override
+  void onInit() {
+    countTimer();
+    super.onInit();
+  }
+
+  countTimer() {
+    const onesec = const Duration(seconds: 1);
+    _timer = Timer.periodic(onesec, (Timer timer) {
+      if (ghori.value > 0) {
+        if (isButtonClicked.value) {
+          ghori.value = 30;
+          ghori.value--;
+
+          isButtonClicked.value = false;
+        } else {
+          ghori.value--;
+        }
+      } else if (ghori.value == 0) {
+        ghori.value = 30;
+        ghori.value--;
+        questionNumber.value = questionNumber.value + 1;
+        myiconlists.value.add("0");
+      } else {
+        ghori.value = 30;
+        _timer.cancel();
+      }
+    });
+  }
 
   questionNumberfunction() {
     if (questionNumber.value < qandanswerlists.length) {
@@ -39,6 +73,7 @@ class QuizController extends GetxController {
 
   reseteveryting() {
     questionNumber.value = 0;
+    ghori.value = 30;
 
     myiconlists.value = [];
   }
